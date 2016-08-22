@@ -1,0 +1,8 @@
+{% if S_REGISTERED_USER %}
+<input type="hidden" value="1" name="tos_accept">
+{% else %}
+<div style="margin-top:10px">
+        <input type="checkbox" checked="checked" value="1" name="tos_accept">
+        <a target="_blank" href="http://med.over.net/clanek/informacije_in_pravila/">Strinjam se z navedenimi pogoji.</a>
+</div>
+{% endif %}

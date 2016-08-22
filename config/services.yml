@@ -1,1 +1,20 @@
 services:
+    gresnet.categorization.controller:
+        class: gresnet\categorization\controller\main
+        arguments:
+            - @request
+            - @user
+            - @gresnet.categorization.model
+    gresnet.categorization.listener:
+        class: gresnet\categorization\event\listener
+        arguments:
+            - @template
+            - @user
+            - @gresnet.categorization.model
+            - @auth
+        tags:
+            - { name: event.listener }
+    gresnet.categorization.model:
+        class: gresnet\categorization\model\categorization
+        arguments:
+            - @dbal.conn

@@ -1,0 +1,3 @@
+gresnet_categorization_post:
+    path: /categorization
+    defaults: { _controller: gresnet.categorization.controller:post }

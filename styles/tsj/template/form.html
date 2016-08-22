@@ -1,0 +1,38 @@
+<div id="edit-category" style="display:none">
+    <h6>Razvrščanje</h6>
+    <form method="post" action="./categorization">
+        <table class="table1 responsive">
+            <thead>
+                <tr>
+                    <th>Kategorija</th>
+                    <th>Primarna</th>
+                    <th>Izberi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in categories %}
+                   {% if cat.parent_id == 0 %}
+                       {% set style = "font-weight:bold;" %}
+                    {% elseif cat.grandparent_id == 0 %}
+                        {% set style = "padding-left:1em;" %}
+                     {% else %}
+                         {% set style = 'padding-left:2em;font-style:italic;color:#303030' %}
+                     {% endif %}
+                     <tr>
+                         <td style="{{ style }}">{{ cat.category }}</td>
+                         <td><input type="radio" name="glavna" value="{{ cat.category_id }}"
+                                    {% if cat.category_id == primarna %}
+                                    checked
+                                    {% endif %}></td>
+                         <td><input type="checkbox" name="category[]" value="{{ cat.category_id }}" 
+                                {% if cat.category_id in active_categories %}
+                                    checked
+                                {% endif %}></td></tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+            <input type="hidden" name="categorize_topic_id" value="{{ TOPIC_ID }}">
+            <input type="hidden" name="categorize_url" value="{{ U_TOPIC }}">
+            <input type="submit" value="Oddaj" class="button">
+    </form>
+</div>

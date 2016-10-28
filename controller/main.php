@@ -22,6 +22,10 @@ class main {
     }
     
     public function post() {
+        $this->auth->acl($this->user->data);
+        if ( ! $this->auth->acl_getf_global('m_') ) {
+            throw new \phpbb\exception\http_exception(404,"Strani ni mogoče najti.");
+        }
         $post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
         $this->process($post);
         //return;

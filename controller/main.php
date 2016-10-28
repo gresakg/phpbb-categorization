@@ -12,10 +12,12 @@ class main {
     
     public function __construct(\phpbb\request\request $request,
                                 \phpbb\user $user,
+                                \phpbb\auth\auth $auth,
                                 \gresnet\categorization\model\Categorization $model) {
         $this->request = $request;
         $this->user = $user;
         $this->model= $model;
+        $this->auth = $auth;
         
     }
     

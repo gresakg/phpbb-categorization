@@ -33,7 +33,8 @@ class listener implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return array(
-            'core.viewtopic_assign_template_vars_before' => 'assign_variables'
+            'core.viewtopic_assign_template_vars_before' => 'assign_variables',
+            'core.user_setup' => 'mod_check',
            );
     }
     
@@ -85,5 +86,18 @@ class listener implements EventSubscriberInterface {
             }
         }
         return $result;
+    }
+    
+    public function mod_check()
+    {
+        $this->acl->acl($this->user->data);
+
+        if ( $this->acl->acl_getf_global('m_') )
+        {
+            $this->template->assign_vars(array(
+                'USER_IS_MOD'	=> 1,
+            ));	
+        }
+
     }
 }

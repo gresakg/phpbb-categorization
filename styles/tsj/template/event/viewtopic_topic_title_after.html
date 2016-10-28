@@ -1,34 +1,36 @@
-{% if categorization %} 
-    <div class="categorization">
-        <h5>Razvrstitev teme</h5>
-    {% if is_categorized == true %}
-        <ul>
-        {% set primarna = 0 %}
-        {% set active_categories = [] %}
-        {% for cat in topic_categories %}
-            {% set active_categories = active_categories|merge([cat.category_id]) %}
-            <li>
-                {% if cat.primarna == 1 %}
-                    {% set primarna = cat.category_id %}
-                {% endif %}
-                {% if cat.grand_parent_category_id != 0 %}
-                    {{cat.grand_parent }} -
-                {% endif %}
-                {% if cat.parent_category_id != 0 %}
-                    {{cat.parent_category }} -
-                {% endif %}
-                {{ cat.category }}
+{% if USER_IS_MOD %}
+    {% if categorization %} 
+        <div class="categorization">
+            <h5>Razvrstitev teme</h5>
+        {% if is_categorized == true %}
+            <ul>
+            {% set primarna = 0 %}
+            {% set active_categories = [] %}
+            {% for cat in topic_categories %}
+                {% set active_categories = active_categories|merge([cat.category_id]) %}
+                <li>
+                    {% if cat.primarna == 1 %}
+                        {% set primarna = cat.category_id %}
+                    {% endif %}
+                    {% if cat.grand_parent_category_id != 0 %}
+                        {{cat.grand_parent }} -
+                    {% endif %}
+                    {% if cat.parent_category_id != 0 %}
+                        {{cat.parent_category }} -
+                    {% endif %}
+                    {{ cat.category }}
 
 
-            </li>
+                </li>
 
-        {% endfor %}
-        </ul>
-        <p><a title="Razvrsti temo" id="toggle-edit" class="button icon-button post-icon" href="#edit-category">Uredi <strong>razvrstitev</strong></a></p>
-    {% else %}
-        <p>Tema še ni razvrščena.
-        <a title="Razvrsti temo" id="toggle-edit" class="button icon-button post-icon" href="#edit-category">Razvrsti <strong>temo</strong></a></p>
+            {% endfor %}
+            </ul>
+            <p><a title="Razvrsti temo" id="toggle-edit" class="button icon-button post-icon" href="#edit-category">Uredi <strong>razvrstitev</strong></a></p>
+        {% else %}
+            <p>Tema še ni razvrščena.
+            <a title="Razvrsti temo" id="toggle-edit" class="button icon-button post-icon" href="#edit-category">Razvrsti <strong>temo</strong></a></p>
+        {% endif %}
+            {% include 'form.html' %}
+        </div>
     {% endif %}
-        {% include 'form.html' %}
-    </div>
 {% endif %}

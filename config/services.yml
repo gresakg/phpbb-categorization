@@ -4,6 +4,7 @@ services:
         arguments:
             - @request
             - @user
+            - @auth
             - @gresnet.categorization.model
     gresnet.categorization.listener:
         class: gresnet\categorization\event\listener

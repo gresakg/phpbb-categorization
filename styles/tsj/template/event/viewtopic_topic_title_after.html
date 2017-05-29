@@ -11,6 +11,7 @@
                 <li>
                     {% if cat.primarna == 1 %}
                         {% set primarna = cat.category_id %}
+                        <em>Primarna: </em>
                     {% endif %}
                     {% if cat.grand_parent_category_id != 0 %}
                         {{cat.grand_parent }} -

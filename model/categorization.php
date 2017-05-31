@@ -9,6 +9,19 @@ class Categorization {
     public function __construct(\phpbb\db\driver\driver_interface $db) {
         $this->db = $db;
     }
+
+    public function are_topics_categorized($topic_ids) {
+        $sql="SELECT DISTINCT topic_id FROM phpbb_classification WHERE topic_id IN (".implode( ',', $topic_ids).")";
+        $result = $this->db->sql_query($sql);
+
+        $topics = array();
+        while ( $row = $this->db->sql_fetchrow())
+        {
+            $topics[$row['topic_id']] = 1;
+        }
+
+        return $topics;
+    }
     
     public function store_categorization($categories) {
         $this->db->sql_query("START TRANSACTION");

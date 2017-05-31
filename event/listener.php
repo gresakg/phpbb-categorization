@@ -14,6 +14,8 @@ class listener implements EventSubscriberInterface {
     
     protected $acl;
 
+    protected $categorized_topics;
+
 
     
     public function __construct(\phpbb\template\template $template,
@@ -35,9 +37,28 @@ class listener implements EventSubscriberInterface {
         return array(
             'core.viewtopic_assign_template_vars_before' => 'assign_variables',
             'core.user_setup' => 'mod_check',
+            'core.viewforum_modify_topics_data' => 'check_if_categorized',
+            'core.viewforum_modify_topicrow' => 'assign_no_category',
            );
     }
-    
+
+    public function check_if_categorized($event) {
+        $topic_list = $event['topic_list'];
+
+        $this->categorized_topics = $this->model->are_topics_categorized($topic_list);
+    }
+
+    public function assign_no_category($event) {
+        $topic_row = $event['topic_row'];
+
+        if ( !$this->categorized_topics[ $topic_row['TOPIC_ID'] ] )
+        {
+            $topic_row['NO_CATEGORY'] = 1;
+        }
+
+        $event['topic_row'] = $topic_row;
+    }
+
     public function assign_variables($e) {
        $topic_categories = $this->get_selected_categories($e['topic_id']);
        if(count($topic_categories) > 0) {

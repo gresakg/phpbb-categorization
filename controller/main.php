@@ -35,12 +35,23 @@ class main {
     
     protected function process($post) {
         $categories = array();
+        $primarna = false;
         $i=0;
         foreach($post['category'] as $cat) {
             $categories[$i]['topic_id'] = $post['categorize_topic_id'];
             $categories[$i]['category_id'] = $cat;
-            $categories[$i]['primarna'] = ($post['glavna']==$cat)?1:0;
+            if($post['glavna'] == $cat) {
+                $categories[$i]['primarna'] = 1;
+                $primarna = true;
+            } else  {
+                $categories[$i]['primarna'] = 0;
+            }  
             $i++;
+        }
+        if(!$primarna) {
+            $categories[$i]['topic_id'] = $post['categorize_topic_id'];
+            $categories[$i]['category_id'] = $post['glavna'];
+            $categories[$i]['primarna'] = 1;
         }
         $this->model->store_categorization($categories);
         
